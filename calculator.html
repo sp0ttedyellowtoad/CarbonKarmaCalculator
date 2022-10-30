@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel = "stylesheet" href="style.css">
+    <title>Calculator</title>
+  </head>
+  <body>
+    <div class="container">
+    <div class ="navbar">
+        <img src="/Users/hufflepuffheroine/Desktop/carbonkarma/navlogo.png" class="logo">
+        <nav>
+          <ul>
+            <li><a href="/Users/hufflepuffheroine/carbobnCarma.html">Home</a></li>
+            <li><a href="/Users/hufflepuffheroine/Desktop/carbonkarma/calculator.html">Calculator</a></li>
+            <li><a href="/Users/hufflepuffheroine/recommendations.html">Recommendations</a></li>
+
+          </ul>
+        </nav>
+        </div>
+    <h1> Answer the Quick Questions Below</h1>
+    <br>
+    <h3>Household Energy Consumption</h3>
+    <br>
+<form name="houseform" id = houseform>
+  <label for="house"> Which option best describes your living situation? &emsp;</label>
+  <select name="houseoption" id="house">
+    <option value=0>Select a housing type</option> 
+    <option value=10323.73475>Mobile Homes</option>
+    <option value=5904.96025>Apartments with 2-4 units</option>
+    <option value=5087.3025>Apartments with >5 units</option> 
+    <option value=10573.3215>Single-Family Detached Homes</option>
+    <option value=7361.58675>Single-Family Attached Homes</option>
+  </select>
+
+
+<!-- if extra time go back and add house usage by region -->
+</form>
+  <!-- how many ppl in la home-->
+  <div class = "group">
+  <label> How many people live in your home (include yourself in your calculation)? &emsp;</label>
+  <input type="text" id="people" inputmode="numeric" placeholder="Enter an integer..." min = "1">
+</div>
+<br>
+<br>
+    <h3>Transportation</h3>
+    <h6>We encourage you to think about your fuel economy if you are unsure about your monthly mileage.</h6>
+    <br>
+    <div class = "group">
+    <label> How many miles do you travel each month? &emsp;</label>   
+    <input type="text" id="work" inputmode="numeric" placeholder="Enter a number..." min = "0">
+  </div>
+
+    <form name="tform" id = tform>
+        <label for="travel">What is your most common method of travel? &emsp;</label>
+        <select name="traveloption" id="travel">
+          <option value=0>Select a transporation method</option> 
+          <option value=0.9061>Gas Car</option> <!-- in pounds --> 
+          <option value=0.561782>Electric Vehicle</option> <!-- .37+.87/ 2 * .9061 --> 
+          <option value=0.03>Bicycling</option>
+          <option value=0.64>Public Transportation</option>
+        </select>
+
+  </form>
+
+  <br> <br>
+  <h3>Dieting Style</h3>
+  <h6>If you are unsure about what each option entails, consider going to <a href="https://shrinkthatfootprint.com/food-carbon-footprint-diet/">Shrink that Footprint</a> to examine a greater explaination of each category </h6>
+  <br>
+  <form name="dietform" id = dietform>
+    <label for="diet"> Which option best describes your diet? &emsp;</label>
+    <select name="dietoption" id="diet">
+      <option value=0>Select a diet regimine</option> 
+      <option value=6600>Meat Heavy (Carniverous)</option> <!-- in pounds --> 
+      <option value=5000>Average</option> <!-- .37+.87/ 2 * .9061 --> 
+      <option value=3800>No Beef</option>
+      <option value=3400>Vegetarian</option>
+      <option value=3000>Vegan</option>
+    </select>
+
+</form>
+<br>
+<br>
+
+<!-- </form>
+  how many ppl in la home
+  <h3> How many people live in your home (include yourself in your calculation)?</h3>
+  <input type="text" id="people" inputmode="numeric" placeholder="Enter an integer..." min = "1">
+-->
+
+<h3>Delivery or DiGiorno?</h3>
+<br>
+<div class = "group">
+<label> On average, how many packages do you have delivered to your house each month? &emsp;</label>
+<input type="text" id="package" inputmode="numeric" placeholder="Enter an integer..." min = "0">
+</div>
+
+<br><br><br>
+  <button onclick="myCalc()" class="btn"> Calculate </button>
+  <div id = "meter" style="text-align: center;"> 
+</div>
+  <h1 id="score"> </h1>
+ <h1 id="tonsCalc"> </h1>
+ <h3 id="breakdown"> </h3>
+<br><br>
+<h4 id="homeTitle"> </h4>
+<p id="homecalc"></p>
+  <br>
+<h4 id = "transTitle"> </h4>
+<p id = "transcalc"></p>
+ <br>
+<h4 id = "Tdiet"> </h4>
+<p id = "dietDisclaimer"></p>
+<br>
+
+<h4 id="consumptionTitle"></h4>
+<p id = "consumptioncalc"></p>
+
+<h6 id = "disclaimer"></h6>
+<br>
+
+</div>
+    <script>
+        function myCalc() {
+            //opening
+            let breakdown = document.querySelector("#breakdown");
+            breakdown.innerHTML = "Let's breakdown this number down a little further:";
+
+            // transporation
+            let work = document.querySelector("#work");
+            let message = document.querySelector("#message");
+            let recommendation = document.querySelector("#recommendation");
+            let tform = document.querySelector("#travel");
+    
+            let transport = 12 * work.value * tform.value;
+            let transTitle = document.querySelector("#transTitle");
+            transTitle.innerHTML = "Transportation";
+            
+            let transcalc = document.querySelector("#transcalc");
+            transcalc.innerHTML = Math.round(transport) + "lbs of GHG per year";
+            //food
+            let Tdiet = document.querySelector("#Tdiet");
+            Tdiet.innerHTML = "Diet";
+            let dietform = document.querySelector("#diet");
+            let diet = dietform.value;
+
+             //house
+            let houseform = document.querySelector("#house");
+            let people = document.querySelector("#people");
+            let residence = .45 * (houseform.value/people.value);
+            let homeTitle = document.querySelector("#homeTitle");
+            homeTitle.innerHTML = "Household Energy Consumption"
+            
+            let homecalc = document.querySelector("#homecalc");
+            homecalc.innerHTML = Math.round(residence) + "lbs of GHG per year";
+            //consumption
+            let package = document.querySelector("#package");
+            let consumption = 12 * (package.value * 3.637627);
+            let consumptionTitle = document.querySelector("#consumptionTitle");
+            consumptionTitle.innerHTML = "Consumption";
+
+            let consumptioncalc = document.querySelector("#consumptioncalc");
+            consumptioncalc.innerHTML = Math.round(consumption) + "lbs of GHG per year";
+          
+
+            //summary
+            let finalCalc = Math.round(transport) + Math.round(diet) + Math.round(consumption) + Math.round(residence);
+            finalCalc = finalCalc/2000;
+            let tonsCalc = document.querySelector("#tonsCalc");
+            tonsCalc.innerHTML = "You are currently emitting " +  finalCalc + "lbs of Carbon Dioxide per year.";
+            let score = document.querySelector("#score");
+            hold = Math.round((850 * (2/finalCalc) + 300)/10) * 10
+            if (hold > 850){
+              score.innerHTML = 850
+            } else{
+              score.innerHTML = hold
+            }
+
+            //disclaimers
+            let dietDisclaimer = document.querySelector("#dietDisclaimer");
+            dietDisclaimer.innerHTML = Math.round(diet) + "lbs of GHG per year"; 
+            //dietDisclaimer.innerHTML = "Disclaimer: We will not provide any commentary on diet in consideration for people with eating disorders or specific health issues that require patients to uphold a certain dieting regimine.";
+            
+            let disclaimer = document.querySelector("#disclaimer");
+            disclaimer.innerHTML = "GHG refers to green house gases, and all calculations shown are rounded!"; 
+
+            let meter = document.querySelector("#meter");
+
+
+            if(hold >= 300 && hold <= 629){
+            meter.innerHTML = "<img src= '/Users/hufflepuffheroine/Desktop/carbonkarma/badimage-2-removebg-preview.png' width=\'auto\' height=\'400px\' text-align=\'center\' display=\'block\'>";
+
+            } else if (hold >= 630 && hold <= 689){
+            meter.innerHTML = "<img src= '/Users/hufflepuffheroine/Desktop/carbonkarma/fair-2-removebg-preview.png' width=\'auto\' height=\'400\px\' text-align=\'center\' display=\'block\'>";
+
+            }else if (hold >= 690 && hold <= 719){
+              meter.innerHTML = "<img src= '/Users/hufflepuffheroine/Desktop/carbonkarma/good-2-removebg-preview.png' width=\'auto\' height=\'400px\' text-align=\'center\' display=\'block\'>";
+            }else if (hold >= 720 ){
+              meter.innerHTML = "<img src= '/Users/hufflepuffheroine/Desktop/carbonkarma/excellent-2-removebg-preview.png' width=\'auto\' height=\'400px\' text-align=\'center\' display=\'block\'>";
+            }
+        }
+
+    </script>
+  </body>
+
+</html> 
+
